@@ -1,0 +1,2160 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Erlang/Elixir NIFs in nim">
+      
+      
+        <link rel="canonical" href="https://wltsmrz.github.io/nimler/bindings/">
+      
+      
+        <meta name="author" content="wltsmrz">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-4.6.3">
+    
+    
+      
+        <title>erl_nif API - nimler</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.adb8469c.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/application-palette.a8b3c06d.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#546e7a">
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.86422ebf.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="blue-grey" data-md-color-accent="blue-grey">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#erl_nif-api-bindings" tabindex="0" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://wltsmrz.github.io/nimler" title="nimler" aria-label="nimler" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon">code</i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              nimler
+            </span>
+            <span class="md-header-nav__topic">
+              
+                erl_nif API
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" aria-label="search" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+<a href="https://github.com/wltsmrz/nimler/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    wltsmrz/nimler
+  </div>
+</a>
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main" role="main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://wltsmrz.github.io/nimler" title="nimler" class="md-nav__button md-logo">
+      
+        <i class="md-icon">code</i>
+      
+    </a>
+    nimler
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+<a href="https://github.com/wltsmrz/nimler/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    wltsmrz/nimler
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../getting_started/" title="Getting started" class="md-nav__link">
+      Getting started
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../advanced_use/" title="Advanced example" class="md-nav__link">
+      Advanced example
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../codec/" title="Encoding and decoding Erlang terms" class="md-nav__link">
+      Encoding and decoding Erlang terms
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../timeslice/" title="Cooperating with Erlang scheduler" class="md-nav__link">
+      Cooperating with Erlang scheduler
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        erl_nif API
+      </label>
+    
+    <a href="./" title="erl_nif API" class="md-nav__link md-nav__link--active">
+      erl_nif API
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#enif_map_iterator_create" class="md-nav__link">
+    enif_map_iterator_create
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_map_iterator_destroy" class="md-nav__link">
+    enif_map_iterator_destroy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_map_iterator_next" class="md-nav__link">
+    enif_map_iterator_next
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_map_iterator_prev" class="md-nav__link">
+    enif_map_iterator_prev
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_map_iterator_get_pair" class="md-nav__link">
+    enif_map_iterator_get_pair
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_map_iterator_is_head" class="md-nav__link">
+    enif_map_iterator_is_head
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_map_iterator_is_tail" class="md-nav__link">
+    enif_map_iterator_is_tail
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_snprintf" class="md-nav__link">
+    enif_snprintf
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_fprintf" class="md-nav__link">
+    enif_fprintf
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_alloc" class="md-nav__link">
+    enif_alloc
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_free" class="md-nav__link">
+    enif_free
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_realloc" class="md-nav__link">
+    enif_realloc
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_priv_data" class="md-nav__link">
+    enif_priv_data
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_term_type" class="md-nav__link">
+    enif_term_type
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_process_alive" class="md-nav__link">
+    enif_is_process_alive
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_port_alive" class="md-nav__link">
+    enif_is_port_alive
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_pid_undefined" class="md-nav__link">
+    enif_is_pid_undefined
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_exception" class="md-nav__link">
+    enif_is_exception
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_atom" class="md-nav__link">
+    enif_is_atom
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_binary" class="md-nav__link">
+    enif_is_binary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_ref" class="md-nav__link">
+    enif_is_ref
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_fun" class="md-nav__link">
+    enif_is_fun
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_pid" class="md-nav__link">
+    enif_is_pid
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_port" class="md-nav__link">
+    enif_is_port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_identical" class="md-nav__link">
+    enif_is_identical
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_list" class="md-nav__link">
+    enif_is_list
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_tuple" class="md-nav__link">
+    enif_is_tuple
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_empty_list" class="md-nav__link">
+    enif_is_empty_list
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_map" class="md-nav__link">
+    enif_is_map
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_number" class="md-nav__link">
+    enif_is_number
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_current_process_alive" class="md-nav__link">
+    enif_is_current_process_alive
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_compare" class="md-nav__link">
+    enif_compare
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_inspect_binary" class="md-nav__link">
+    enif_inspect_binary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_alloc_binary" class="md-nav__link">
+    enif_alloc_binary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_realloc_binary" class="md-nav__link">
+    enif_realloc_binary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_release_binary" class="md-nav__link">
+    enif_release_binary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_atom" class="md-nav__link">
+    enif_get_atom
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_atom_length" class="md-nav__link">
+    enif_get_atom_length
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_int" class="md-nav__link">
+    enif_get_int
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_long" class="md-nav__link">
+    enif_get_long
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_int64" class="md-nav__link">
+    enif_get_int64
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_uint" class="md-nav__link">
+    enif_get_uint
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_ulong" class="md-nav__link">
+    enif_get_ulong
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_uint64" class="md-nav__link">
+    enif_get_uint64
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_double" class="md-nav__link">
+    enif_get_double
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_list_cell" class="md-nav__link">
+    enif_get_list_cell
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_list_length" class="md-nav__link">
+    enif_get_list_length
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_tuple" class="md-nav__link">
+    enif_get_tuple
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_string" class="md-nav__link">
+    enif_get_string
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_unique_integer" class="md-nav__link">
+    enif_make_unique_integer
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_atom" class="md-nav__link">
+    enif_make_atom
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_atom_len" class="md-nav__link">
+    enif_make_atom_len
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_existing_atom" class="md-nav__link">
+    enif_make_existing_atom
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_existing_atom_len" class="md-nav__link">
+    enif_make_existing_atom_len
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_binary" class="md-nav__link">
+    enif_make_binary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_sub_binary" class="md-nav__link">
+    enif_make_sub_binary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_badarg" class="md-nav__link">
+    enif_make_badarg
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_int" class="md-nav__link">
+    enif_make_int
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_long" class="md-nav__link">
+    enif_make_long
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_int64" class="md-nav__link">
+    enif_make_int64
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_ulong" class="md-nav__link">
+    enif_make_ulong
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_uint64" class="md-nav__link">
+    enif_make_uint64
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_double" class="md-nav__link">
+    enif_make_double
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_tuple" class="md-nav__link">
+    enif_make_tuple
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_list" class="md-nav__link">
+    enif_make_list
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_list_cell" class="md-nav__link">
+    enif_make_list_cell
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_reverse_list" class="md-nav__link">
+    enif_make_reverse_list
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_string" class="md-nav__link">
+    enif_make_string
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_string_len" class="md-nav__link">
+    enif_make_string_len
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_ref" class="md-nav__link">
+    enif_make_ref
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_uint" class="md-nav__link">
+    enif_make_uint
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_tuple_from_array" class="md-nav__link">
+    enif_make_tuple_from_array
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_list_from_array" class="md-nav__link">
+    enif_make_list_from_array
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_new_binary" class="md-nav__link">
+    enif_make_new_binary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_system_info" class="md-nav__link">
+    enif_system_info
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_system_info_1" class="md-nav__link">
+    enif_system_info
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_raise_exception" class="md-nav__link">
+    enif_raise_exception
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_has_pending_exception" class="md-nav__link">
+    enif_has_pending_exception
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_has_pending_exception_1" class="md-nav__link">
+    enif_has_pending_exception
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_term_to_binary" class="md-nav__link">
+    enif_term_to_binary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_binary_to_term" class="md-nav__link">
+    enif_binary_to_term
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_hash" class="md-nav__link">
+    enif_hash
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_alloc_env" class="md-nav__link">
+    enif_alloc_env
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_free_env" class="md-nav__link">
+    enif_free_env
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_clear_env" class="md-nav__link">
+    enif_clear_env
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_send" class="md-nav__link">
+    enif_send
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_copy" class="md-nav__link">
+    enif_make_copy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_pid" class="md-nav__link">
+    enif_make_pid
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_self" class="md-nav__link">
+    enif_self
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_local_pid" class="md-nav__link">
+    enif_get_local_pid
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_map_size" class="md-nav__link">
+    enif_get_map_size
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_new_map" class="md-nav__link">
+    enif_make_new_map
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_map_from_arrays" class="md-nav__link">
+    enif_make_map_from_arrays
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_map_put" class="md-nav__link">
+    enif_make_map_put
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_map_value" class="md-nav__link">
+    enif_get_map_value
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_map_update" class="md-nav__link">
+    enif_make_map_update
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_map_remove" class="md-nav__link">
+    enif_make_map_remove
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_open_resource_type" class="md-nav__link">
+    enif_open_resource_type
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_open_resource_type_1" class="md-nav__link">
+    enif_open_resource_type
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_open_resource_type_2" class="md-nav__link">
+    enif_open_resource_type
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_alloc_resource" class="md-nav__link">
+    enif_alloc_resource
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_release_resource" class="md-nav__link">
+    enif_release_resource
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_resource" class="md-nav__link">
+    enif_make_resource
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_resource" class="md-nav__link">
+    enif_get_resource
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_consume_timeslice" class="md-nav__link">
+    enif_consume_timeslice
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_schedule_nif" class="md-nav__link">
+    enif_schedule_nif
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_schedule_nif_1" class="md-nav__link">
+    enif_schedule_nif
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_schedule_nif_2" class="md-nav__link">
+    enif_schedule_nif
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#enif_map_iterator_create" class="md-nav__link">
+    enif_map_iterator_create
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_map_iterator_destroy" class="md-nav__link">
+    enif_map_iterator_destroy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_map_iterator_next" class="md-nav__link">
+    enif_map_iterator_next
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_map_iterator_prev" class="md-nav__link">
+    enif_map_iterator_prev
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_map_iterator_get_pair" class="md-nav__link">
+    enif_map_iterator_get_pair
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_map_iterator_is_head" class="md-nav__link">
+    enif_map_iterator_is_head
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_map_iterator_is_tail" class="md-nav__link">
+    enif_map_iterator_is_tail
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_snprintf" class="md-nav__link">
+    enif_snprintf
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_fprintf" class="md-nav__link">
+    enif_fprintf
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_alloc" class="md-nav__link">
+    enif_alloc
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_free" class="md-nav__link">
+    enif_free
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_realloc" class="md-nav__link">
+    enif_realloc
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_priv_data" class="md-nav__link">
+    enif_priv_data
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_term_type" class="md-nav__link">
+    enif_term_type
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_process_alive" class="md-nav__link">
+    enif_is_process_alive
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_port_alive" class="md-nav__link">
+    enif_is_port_alive
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_pid_undefined" class="md-nav__link">
+    enif_is_pid_undefined
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_exception" class="md-nav__link">
+    enif_is_exception
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_atom" class="md-nav__link">
+    enif_is_atom
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_binary" class="md-nav__link">
+    enif_is_binary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_ref" class="md-nav__link">
+    enif_is_ref
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_fun" class="md-nav__link">
+    enif_is_fun
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_pid" class="md-nav__link">
+    enif_is_pid
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_port" class="md-nav__link">
+    enif_is_port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_identical" class="md-nav__link">
+    enif_is_identical
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_list" class="md-nav__link">
+    enif_is_list
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_tuple" class="md-nav__link">
+    enif_is_tuple
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_empty_list" class="md-nav__link">
+    enif_is_empty_list
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_map" class="md-nav__link">
+    enif_is_map
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_number" class="md-nav__link">
+    enif_is_number
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_is_current_process_alive" class="md-nav__link">
+    enif_is_current_process_alive
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_compare" class="md-nav__link">
+    enif_compare
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_inspect_binary" class="md-nav__link">
+    enif_inspect_binary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_alloc_binary" class="md-nav__link">
+    enif_alloc_binary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_realloc_binary" class="md-nav__link">
+    enif_realloc_binary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_release_binary" class="md-nav__link">
+    enif_release_binary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_atom" class="md-nav__link">
+    enif_get_atom
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_atom_length" class="md-nav__link">
+    enif_get_atom_length
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_int" class="md-nav__link">
+    enif_get_int
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_long" class="md-nav__link">
+    enif_get_long
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_int64" class="md-nav__link">
+    enif_get_int64
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_uint" class="md-nav__link">
+    enif_get_uint
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_ulong" class="md-nav__link">
+    enif_get_ulong
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_uint64" class="md-nav__link">
+    enif_get_uint64
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_double" class="md-nav__link">
+    enif_get_double
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_list_cell" class="md-nav__link">
+    enif_get_list_cell
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_list_length" class="md-nav__link">
+    enif_get_list_length
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_tuple" class="md-nav__link">
+    enif_get_tuple
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_string" class="md-nav__link">
+    enif_get_string
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_unique_integer" class="md-nav__link">
+    enif_make_unique_integer
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_atom" class="md-nav__link">
+    enif_make_atom
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_atom_len" class="md-nav__link">
+    enif_make_atom_len
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_existing_atom" class="md-nav__link">
+    enif_make_existing_atom
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_existing_atom_len" class="md-nav__link">
+    enif_make_existing_atom_len
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_binary" class="md-nav__link">
+    enif_make_binary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_sub_binary" class="md-nav__link">
+    enif_make_sub_binary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_badarg" class="md-nav__link">
+    enif_make_badarg
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_int" class="md-nav__link">
+    enif_make_int
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_long" class="md-nav__link">
+    enif_make_long
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_int64" class="md-nav__link">
+    enif_make_int64
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_ulong" class="md-nav__link">
+    enif_make_ulong
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_uint64" class="md-nav__link">
+    enif_make_uint64
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_double" class="md-nav__link">
+    enif_make_double
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_tuple" class="md-nav__link">
+    enif_make_tuple
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_list" class="md-nav__link">
+    enif_make_list
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_list_cell" class="md-nav__link">
+    enif_make_list_cell
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_reverse_list" class="md-nav__link">
+    enif_make_reverse_list
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_string" class="md-nav__link">
+    enif_make_string
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_string_len" class="md-nav__link">
+    enif_make_string_len
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_ref" class="md-nav__link">
+    enif_make_ref
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_uint" class="md-nav__link">
+    enif_make_uint
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_tuple_from_array" class="md-nav__link">
+    enif_make_tuple_from_array
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_list_from_array" class="md-nav__link">
+    enif_make_list_from_array
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_new_binary" class="md-nav__link">
+    enif_make_new_binary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_system_info" class="md-nav__link">
+    enif_system_info
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_system_info_1" class="md-nav__link">
+    enif_system_info
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_raise_exception" class="md-nav__link">
+    enif_raise_exception
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_has_pending_exception" class="md-nav__link">
+    enif_has_pending_exception
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_has_pending_exception_1" class="md-nav__link">
+    enif_has_pending_exception
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_term_to_binary" class="md-nav__link">
+    enif_term_to_binary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_binary_to_term" class="md-nav__link">
+    enif_binary_to_term
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_hash" class="md-nav__link">
+    enif_hash
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_alloc_env" class="md-nav__link">
+    enif_alloc_env
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_free_env" class="md-nav__link">
+    enif_free_env
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_clear_env" class="md-nav__link">
+    enif_clear_env
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_send" class="md-nav__link">
+    enif_send
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_copy" class="md-nav__link">
+    enif_make_copy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_pid" class="md-nav__link">
+    enif_make_pid
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_self" class="md-nav__link">
+    enif_self
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_local_pid" class="md-nav__link">
+    enif_get_local_pid
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_map_size" class="md-nav__link">
+    enif_get_map_size
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_new_map" class="md-nav__link">
+    enif_make_new_map
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_map_from_arrays" class="md-nav__link">
+    enif_make_map_from_arrays
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_map_put" class="md-nav__link">
+    enif_make_map_put
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_map_value" class="md-nav__link">
+    enif_get_map_value
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_map_update" class="md-nav__link">
+    enif_make_map_update
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_map_remove" class="md-nav__link">
+    enif_make_map_remove
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_open_resource_type" class="md-nav__link">
+    enif_open_resource_type
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_open_resource_type_1" class="md-nav__link">
+    enif_open_resource_type
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_open_resource_type_2" class="md-nav__link">
+    enif_open_resource_type
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_alloc_resource" class="md-nav__link">
+    enif_alloc_resource
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_release_resource" class="md-nav__link">
+    enif_release_resource
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_make_resource" class="md-nav__link">
+    enif_make_resource
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_get_resource" class="md-nav__link">
+    enif_get_resource
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_consume_timeslice" class="md-nav__link">
+    enif_consume_timeslice
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_schedule_nif" class="md-nav__link">
+    enif_schedule_nif
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_schedule_nif_1" class="md-nav__link">
+    enif_schedule_nif
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enif_schedule_nif_2" class="md-nav__link">
+    enif_schedule_nif
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/wltsmrz/nimler/edit/master/docs/bindings.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="erl_nif-api-bindings">erl_nif API bindings</h1>
+<p>The following <a href="https://github.com/wltsmrz/nimler/blob/develop/nimler/bindings/erl_nif.nim">nim bindings</a> to <code>erl_nif.h</code> are available to nimler NIFs.</p>
+<p>For more details, see the <a href="https://erlang.org/doc/man/erl_nif.html">erl_nif docs</a>.</p>
+<h2 id="enif_map_iterator_create">enif_map_iterator_create</h2>
+<p>proc enif_map_iterator_create*(a1: ptr ErlNifEnv; a2: ErlNifTerm; a3: ptr ErlNifMapIterator; a4: ErlNifMapIteratorEntry): bool </p>
+<h2 id="enif_map_iterator_destroy">enif_map_iterator_destroy</h2>
+<p>proc enif_map_iterator_destroy*(a1: ptr ErlNifEnv; a2: ptr ErlNifMapIterator): void </p>
+<h2 id="enif_map_iterator_next">enif_map_iterator_next</h2>
+<p>proc enif_map_iterator_next*(a1: ptr ErlNifEnv; a2: ptr ErlNifMapIterator): bool </p>
+<h2 id="enif_map_iterator_prev">enif_map_iterator_prev</h2>
+<p>proc enif_map_iterator_prev*(a1: ptr ErlNifEnv; a2: ptr ErlNifMapIterator): bool </p>
+<h2 id="enif_map_iterator_get_pair">enif_map_iterator_get_pair</h2>
+<p>proc enif_map_iterator_get_pair*(a1: ptr ErlNifEnv; a2: ptr ErlNifMapIterator; a3: ptr ErlNifTerm; a4: ptr ErlNifTerm): bool </p>
+<h2 id="enif_map_iterator_is_head">enif_map_iterator_is_head</h2>
+<p>proc enif_map_iterator_is_head*(a1: ptr ErlNifEnv; a2: ptr ErlNifMapIterator): bool </p>
+<h2 id="enif_map_iterator_is_tail">enif_map_iterator_is_tail</h2>
+<p>proc enif_map_iterator_is_tail*(a1: ptr ErlNifEnv; a2: ptr ErlNifMapIterator): bool </p>
+<h2 id="enif_snprintf">enif_snprintf</h2>
+<p>proc enif_snprintf*(a1: ptr char, a2: cuint; a3: cstring): bool </p>
+<h2 id="enif_fprintf">enif_fprintf</h2>
+<p>proc enif_fprintf*(a1: File, a2: cstring): bool </p>
+<h2 id="enif_alloc">enif_alloc</h2>
+<p>proc enif_alloc*(a1: csize_t): pointer </p>
+<h2 id="enif_free">enif_free</h2>
+<p>proc enif_free*(a1: pointer) </p>
+<h2 id="enif_realloc">enif_realloc</h2>
+<p>proc enif_realloc*(a1: pointer; a2: csize_t): pointer </p>
+<h2 id="enif_priv_data">enif_priv_data</h2>
+<p>proc enif_priv_data*(a1: ptr ErlNifEnv): pointer </p>
+<h2 id="enif_term_type">enif_term_type</h2>
+<p>proc enif_term_type*(a1: ptr ErlNifEnv; a2: ErlNifTerm): ErlNifTermType </p>
+<h2 id="enif_is_process_alive">enif_is_process_alive</h2>
+<p>proc enif_is_process_alive*(a1: ptr ErlNifEnv; a2: ptr ErlNifPid): bool </p>
+<h2 id="enif_is_port_alive">enif_is_port_alive</h2>
+<p>proc enif_is_port_alive*(a1: ptr ErlNifEnv; a2: ErlNifTerm): bool </p>
+<h2 id="enif_is_pid_undefined">enif_is_pid_undefined</h2>
+<p>proc enif_is_pid_undefined*(a2: ptr ErlNifPid): bool </p>
+<h2 id="enif_is_exception">enif_is_exception</h2>
+<p>proc enif_is_exception*(a1: ptr ErlNifEnv; a2: ErlNifTerm): bool </p>
+<h2 id="enif_is_atom">enif_is_atom</h2>
+<p>proc enif_is_atom*(a1: ptr ErlNifEnv; a2: ErlNifTerm): bool </p>
+<h2 id="enif_is_binary">enif_is_binary</h2>
+<p>proc enif_is_binary*(a1: ptr ErlNifEnv; a2: ErlNifTerm): bool </p>
+<h2 id="enif_is_ref">enif_is_ref</h2>
+<p>proc enif_is_ref*(a1: ptr ErlNifEnv; a2: ErlNifTerm): bool </p>
+<h2 id="enif_is_fun">enif_is_fun</h2>
+<p>proc enif_is_fun*(a1: ptr ErlNifEnv; a2: ErlNifTerm): bool </p>
+<h2 id="enif_is_pid">enif_is_pid</h2>
+<p>proc enif_is_pid*(a1: ptr ErlNifEnv; a2: ErlNifTerm): bool </p>
+<h2 id="enif_is_port">enif_is_port</h2>
+<p>proc enif_is_port*(a1: ptr ErlNifEnv; a2: ErlNifTerm): bool </p>
+<h2 id="enif_is_identical">enif_is_identical</h2>
+<p>proc enif_is_identical*(lhs: ErlNifTerm; rhs: ErlNifTerm): bool </p>
+<h2 id="enif_is_list">enif_is_list</h2>
+<p>proc enif_is_list*(a1: ptr ErlNifEnv; a2: ErlNifTerm): bool </p>
+<h2 id="enif_is_tuple">enif_is_tuple</h2>
+<p>proc enif_is_tuple*(a1: ptr ErlNifEnv; a2: ErlNifTerm): bool </p>
+<h2 id="enif_is_empty_list">enif_is_empty_list</h2>
+<p>proc enif_is_empty_list*(a1: ptr ErlNifEnv; a2: ErlNifTerm): bool </p>
+<h2 id="enif_is_map">enif_is_map</h2>
+<p>proc enif_is_map*(a1: ptr ErlNifEnv; a2: ErlNifTerm): bool </p>
+<h2 id="enif_is_number">enif_is_number</h2>
+<p>proc enif_is_number*(a1: ptr ErlNifEnv; a2: ErlNifTerm): bool </p>
+<h2 id="enif_is_current_process_alive">enif_is_current_process_alive</h2>
+<p>proc enif_is_current_process_alive*(a1: ptr ErlNifEnv): bool </p>
+<h2 id="enif_compare">enif_compare</h2>
+<p>proc enif_compare*(a1: ErlNifTerm; a2: ErlNifTerm): cint </p>
+<h2 id="enif_inspect_binary">enif_inspect_binary</h2>
+<p>proc enif_inspect_binary*(a1: ptr ErlNifEnv; a2: ErlNifTerm; a3: ptr ErlNifBinary): bool </p>
+<h2 id="enif_alloc_binary">enif_alloc_binary</h2>
+<p>proc enif_alloc_binary*(a1: csize_t; a2: ptr ErlNifBinary): cint </p>
+<h2 id="enif_realloc_binary">enif_realloc_binary</h2>
+<p>proc enif_realloc_binary*(a1: ptr ErlNifBinary; a2: csize_t): cint </p>
+<h2 id="enif_release_binary">enif_release_binary</h2>
+<p>proc enif_release_binary*(a1: ptr ErlNifBinary): cint </p>
+<h2 id="enif_get_atom">enif_get_atom</h2>
+<p>proc enif_get_atom*(a1: ptr ErlNifEnv; a2: ErlNifTerm; a3: ptr char; a4: csize_t; a5: ErlNifCharEncoding): cint </p>
+<h2 id="enif_get_atom_length">enif_get_atom_length</h2>
+<p>proc enif_get_atom_length*(a1: ptr ErlNifEnv; a2: ErlNifTerm; a3: ptr cuint; a4: ErlNifCharEncoding): bool </p>
+<h2 id="enif_get_int">enif_get_int</h2>
+<p>proc enif_get_int*(a1: ptr ErlNifEnv; a2: ErlNifTerm; a3: ptr cint): bool </p>
+<h2 id="enif_get_long">enif_get_long</h2>
+<p>proc enif_get_long*(a1: ptr ErlNifEnv; a2: ErlNifTerm; a3: ptr clong): bool </p>
+<h2 id="enif_get_int64">enif_get_int64</h2>
+<p>proc enif_get_int64*(a1: ptr ErlNifEnv; a2: ErlNifTerm; a3: ptr clonglong): bool </p>
+<h2 id="enif_get_uint">enif_get_uint</h2>
+<p>proc enif_get_uint*(a1: ptr ErlNifEnv; a2: ErlNifTerm; a3: ptr cuint): bool </p>
+<h2 id="enif_get_ulong">enif_get_ulong</h2>
+<p>proc enif_get_ulong*(a1: ptr ErlNifEnv; a2: ErlNifTerm; a3: ptr culong): bool </p>
+<h2 id="enif_get_uint64">enif_get_uint64</h2>
+<p>proc enif_get_uint64*(a1: ptr ErlNifEnv; a2: ErlNifTerm; a3: ptr culonglong): bool </p>
+<h2 id="enif_get_double">enif_get_double</h2>
+<p>proc enif_get_double*(a1: ptr ErlNifEnv; a2: ErlNifTerm; a3: ptr cdouble): bool </p>
+<h2 id="enif_get_list_cell">enif_get_list_cell</h2>
+<p>proc enif_get_list_cell*(a1: ptr ErlNifEnv; a2: ErlNifTerm; a3: ptr ErlNifTerm; a4: ptr ErlNifTerm): bool </p>
+<h2 id="enif_get_list_length">enif_get_list_length</h2>
+<p>proc enif_get_list_length*(a1: ptr ErlNifEnv; a2: ErlNifTerm; len: ptr cuint): bool </p>
+<h2 id="enif_get_tuple">enif_get_tuple</h2>
+<p>proc enif_get_tuple*(a1: ptr ErlNifEnv; a2: ErlNifTerm; a3: ptr cuint; a4: ptr ptr UncheckedArray[ErlNifTerm]): bool </p>
+<h2 id="enif_get_string">enif_get_string</h2>
+<p>proc enif_get_string*(a1: ptr ErlNifEnv; a2: ErlNifTerm; a3: ptr char; a4: csize_t; a5: ErlNifCharEncoding): cint </p>
+<h2 id="enif_make_unique_integer">enif_make_unique_integer</h2>
+<p>proc enif_make_unique_integer*(a1: ptr ErlNifEnv; a2: ErlNifUniqueInteger): ErlNifTerm </p>
+<h2 id="enif_make_atom">enif_make_atom</h2>
+<p>proc enif_make_atom*(a1: ptr ErlNifEnv; a2: cstring): ErlNifTerm </p>
+<h2 id="enif_make_atom_len">enif_make_atom_len</h2>
+<p>proc enif_make_atom_len*(a1: ptr ErlNifEnv; a2: cstring; a3: csize_t): ErlNifTerm </p>
+<h2 id="enif_make_existing_atom">enif_make_existing_atom</h2>
+<p>proc enif_make_existing_atom*(a1: ptr ErlNifEnv; a2: cstring; a3: ptr ErlNifTerm; a4: ErlNifCharEncoding): bool </p>
+<h2 id="enif_make_existing_atom_len">enif_make_existing_atom_len</h2>
+<p>proc enif_make_existing_atom_len*(a1: ptr ErlNifEnv; a2: cstring; a3: cuint; a4: ptr ErlNifTerm; a5: ErlNifCharEncoding): bool </p>
+<h2 id="enif_make_binary">enif_make_binary</h2>
+<p>proc enif_make_binary*(a1: ptr ErlNifEnv; a2: ptr ErlNifBinary): ErlNifTerm </p>
+<h2 id="enif_make_sub_binary">enif_make_sub_binary</h2>
+<p>proc enif_make_sub_binary*(a1: ptr ErlNifEnv; a2: ErlNifTerm; a3: csize_t; a4: csize_t): ErlNifTerm </p>
+<h2 id="enif_make_badarg">enif_make_badarg</h2>
+<p>proc enif_make_badarg*(a1: ptr ErlNifEnv): ErlNifTerm </p>
+<h2 id="enif_make_int">enif_make_int</h2>
+<p>proc enif_make_int*(a1: ptr ErlNifEnv; a2: cint): ErlNifTerm </p>
+<h2 id="enif_make_long">enif_make_long</h2>
+<p>proc enif_make_long*(a1: ptr ErlNifEnv; a2: clong): ErlNifTerm </p>
+<h2 id="enif_make_int64">enif_make_int64</h2>
+<p>proc enif_make_int64*(a1: ptr ErlNifEnv; a2: clonglong): ErlNifTerm </p>
+<h2 id="enif_make_ulong">enif_make_ulong</h2>
+<p>proc enif_make_ulong*(a1: ptr ErlNifEnv; a2: culong): ErlNifTerm </p>
+<h2 id="enif_make_uint64">enif_make_uint64</h2>
+<p>proc enif_make_uint64*(a1: ptr ErlNifEnv; a2: culonglong): ErlNifTerm </p>
+<h2 id="enif_make_double">enif_make_double</h2>
+<p>proc enif_make_double*(a1: ptr ErlNifEnv; a2: cdouble): ErlNifTerm </p>
+<h2 id="enif_make_tuple">enif_make_tuple</h2>
+<p>proc enif_make_tuple*(a1: ptr ErlNifEnv; a2: csize_t): ErlNifTerm </p>
+<h2 id="enif_make_list">enif_make_list</h2>
+<p>proc enif_make_list*(a1: ptr ErlNifEnv; a2: csize_t): ErlNifTerm </p>
+<h2 id="enif_make_list_cell">enif_make_list_cell</h2>
+<p>proc enif_make_list_cell*(a1: ptr ErlNifEnv; a2: ErlNifTerm; a3: ErlNifTerm): ErlNifTerm </p>
+<h2 id="enif_make_reverse_list">enif_make_reverse_list</h2>
+<p>proc enif_make_reverse_list*(a1: ptr ErlNifEnv; a2: ErlNifTerm; a3: ptr ErlNifTerm): bool </p>
+<h2 id="enif_make_string">enif_make_string</h2>
+<p>proc enif_make_string*(a1: ptr ErlNifEnv; string: cstring; a3: ErlNifCharEncoding): ErlNifTerm </p>
+<h2 id="enif_make_string_len">enif_make_string_len</h2>
+<p>proc enif_make_string_len*(a1: ptr ErlNifEnv; string: cstring; a2: csize_t; a3: ErlNifCharEncoding): ErlNifTerm </p>
+<h2 id="enif_make_ref">enif_make_ref</h2>
+<p>proc enif_make_ref*(a1: ptr ErlNifEnv): ErlNifTerm </p>
+<h2 id="enif_make_uint">enif_make_uint</h2>
+<p>proc enif_make_uint*(a1: ptr ErlNifEnv; a2: csize_t): ErlNifTerm </p>
+<h2 id="enif_make_tuple_from_array">enif_make_tuple_from_array</h2>
+<p>proc enif_make_tuple_from_array*(a1: ptr ErlNifEnv; a2: openArray[ErlNifTerm]): ErlNifTerm </p>
+<h2 id="enif_make_list_from_array">enif_make_list_from_array</h2>
+<p>proc enif_make_list_from_array*(a1: ptr ErlNifEnv; a2: openArray[ErlNifTerm]): ErlNifTerm </p>
+<h2 id="enif_make_new_binary">enif_make_new_binary</h2>
+<p>proc enif_make_new_binary*(a1: ptr ErlNifEnv; a2: csize_t; a3: ptr ErlNifTerm): ptr cuchar </p>
+<h2 id="enif_system_info">enif_system_info</h2>
+<p>proc enif_system_info*(a1: ptr ErlNifSysInfo; a2: csize_t): void </p>
+<h2 id="enif_system_info_1">enif_system_info</h2>
+<p>proc enif_system_info*(): ErlNifSysInfo</p>
+<h2 id="enif_raise_exception">enif_raise_exception</h2>
+<p>proc enif_raise_exception*(a1: ptr ErlNifEnv; a2: ErlNifTerm): ErlNifTerm </p>
+<h2 id="enif_has_pending_exception">enif_has_pending_exception</h2>
+<p>proc enif_has_pending_exception*(a1: ptr ErlNifEnv; a2: ptr ErlNifTerm): bool </p>
+<h2 id="enif_has_pending_exception_1">enif_has_pending_exception</h2>
+<p>proc enif_has_pending_exception*(a1: ptr ErlNifEnv): bool</p>
+<h2 id="enif_term_to_binary">enif_term_to_binary</h2>
+<p>proc enif_term_to_binary*(a1: ptr ErlNifEnv; a2: ErlNifTerm; a3: ptr ErlNifBinary): cint </p>
+<h2 id="enif_binary_to_term">enif_binary_to_term</h2>
+<p>proc enif_binary_to_term*(a1: ptr ErlNifEnv; a2: ptr cuchar; a3: csize_t; a4: ptr ErlNifTerm; a5: csize_t): csize_t </p>
+<h2 id="enif_hash">enif_hash</h2>
+<p>proc enif_hash*(a1: ErlNifHash; term: ErlNifTerm; salt: culonglong = 0): culonglong </p>
+<h2 id="enif_alloc_env">enif_alloc_env</h2>
+<p>proc enif_alloc_env*(): ptr ErlNifEnv </p>
+<h2 id="enif_free_env">enif_free_env</h2>
+<p>proc enif_free_env*(a1: ptr ErlNifEnv) </p>
+<h2 id="enif_clear_env">enif_clear_env</h2>
+<p>proc enif_clear_env*(a1: ptr ErlNifEnv) </p>
+<h2 id="enif_send">enif_send</h2>
+<p>proc enif_send*(a1: ptr ErlNifEnv; a2: ptr ErlNifPid; a3: ptr ErlNifEnv; a4: ErlNifTerm): bool</p>
+<h2 id="enif_make_copy">enif_make_copy</h2>
+<p>proc enif_make_copy*(a1: ptr ErlNifEnv; a2: ErlNifTerm): ErlNifTerm </p>
+<h2 id="enif_make_pid">enif_make_pid</h2>
+<p>proc enif_make_pid*(a1: ptr ErlNifEnv; a2: ptr ErlNifPid): ErlNifTerm </p>
+<h2 id="enif_self">enif_self</h2>
+<p>proc enif_self*(a1: ptr ErlNifEnv; a2: ptr ErlNifPid): ptr ErlNifPid </p>
+<h2 id="enif_get_local_pid">enif_get_local_pid</h2>
+<p>proc enif_get_local_pid*(a1: ptr ErlNifEnv; a2: ErlNifTerm; a3: ptr ErlNifPid): bool </p>
+<h2 id="enif_get_map_size">enif_get_map_size</h2>
+<p>proc enif_get_map_size*(a1: ptr ErlNifEnv; a2: ErlNifTerm; a3: ptr cuint): bool </p>
+<h2 id="enif_make_new_map">enif_make_new_map</h2>
+<p>proc enif_make_new_map*(a1: ptr ErlNifEnv): ErlNifTerm </p>
+<h2 id="enif_make_map_from_arrays">enif_make_map_from_arrays</h2>
+<p>proc enif_make_map_from_arrays*(a1: ptr ErlNifEnv; a2: ptr ErlNifTerm; a3: ptr ErlNifTerm; a4: cuint, a5: ptr ErlNifTerm): bool </p>
+<h2 id="enif_make_map_put">enif_make_map_put</h2>
+<p>proc enif_make_map_put*(a1: ptr ErlNifEnv; a2: ErlNifTerm; a3: ErlNifTerm; a4: ErlNifTerm; a5: ptr ErlNifTerm): bool </p>
+<h2 id="enif_get_map_value">enif_get_map_value</h2>
+<p>proc enif_get_map_value*(a1: ptr ErlNifEnv; a2: ErlNifTerm; a3: ErlNifTerm; a4: ptr ErlNifTerm): bool </p>
+<h2 id="enif_make_map_update">enif_make_map_update</h2>
+<p>proc enif_make_map_update*(a1: ptr ErlNifEnv; a2: ErlNifTerm; a3: ErlNifTerm; a4: ErlNifTerm; a5: ptr ErlNifTerm): bool </p>
+<h2 id="enif_make_map_remove">enif_make_map_remove</h2>
+<p>proc enif_make_map_remove*(a1: ptr ErlNifEnv; a2: ErlNifTerm; a3: ErlNifTerm; a4: ptr ErlNifTerm): bool </p>
+<h2 id="enif_open_resource_type">enif_open_resource_type</h2>
+<p>proc enif_open_resource_type*(a1: ptr ErlNifEnv, a2: typeof(nil); a3: cstring, a4: pointer; a5: ErlNifResourceFlags; a6: ptr ErlNifResourceFlags): ptr ErlNifResourceType </p>
+<h2 id="enif_open_resource_type_1">enif_open_resource_type</h2>
+<p>proc enif_open_resource_type*(a1: ptr ErlNifEnv; a2: cstring; a3: ErlNifResourceFlags; a4: ptr ErlNifResourceFlags): ptr ErlNifResourceType</p>
+<h2 id="enif_open_resource_type_2">enif_open_resource_type</h2>
+<p>proc enif_open_resource_type*(a1: ptr ErlNifEnv; a2: cstring; a3: ErlNifResourceFlags): ptr ErlNifResourceType</p>
+<h2 id="enif_alloc_resource">enif_alloc_resource</h2>
+<p>proc enif_alloc_resource*(a1: pointer; a2: csize_t): pointer </p>
+<h2 id="enif_release_resource">enif_release_resource</h2>
+<p>proc enif_release_resource*(a1: pointer): void </p>
+<h2 id="enif_make_resource">enif_make_resource</h2>
+<p>proc enif_make_resource*(a1: ptr ErlNifEnv; a2: pointer): ErlNifTerm </p>
+<h2 id="enif_get_resource">enif_get_resource</h2>
+<p>proc enif_get_resource*(a1: ptr ErlNifEnv; a2: ErlNifTerm; a3: pointer; a4: pointer): bool </p>
+<h2 id="enif_consume_timeslice">enif_consume_timeslice</h2>
+<p>proc enif_consume_timeslice*(a1: ptr ErlNifEnv; a2: cint): bool </p>
+<h2 id="enif_schedule_nif">enif_schedule_nif</h2>
+<p>proc enif_schedule_nif*(a1: ptr ErlNifEnv; a2: cstring; a3: cint; a4: NifFunc; a5: cint; a6: ErlNifArgs): ErlNifTerm </p>
+<h2 id="enif_schedule_nif_1">enif_schedule_nif</h2>
+<p>proc enif_schedule_nif*(a1: ptr ErlNifEnv; a2: cstring; a3: cint; a4: NifFunc; a5: openArray[ErlNifTerm]): ErlNifTerm</p>
+<h2 id="enif_schedule_nif_2">enif_schedule_nif</h2>
+<p>proc enif_schedule_nif*(a1: ptr ErlNifEnv; a2: NifFunc; a3: openArray[ErlNifTerm]): ErlNifTerm</p>
+                
+                  
+                
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../timeslice/" title="Cooperating with Erlang scheduler" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Cooperating with Erlang scheduler
+              </span>
+            </div>
+          </a>
+        
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org" target="_blank" rel="noopener">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.c33a9706.js"></script>
+      
+      <script>app.initialize({version:"1.1",url:{base:".."}})</script>
+      
+    
+  </body>
+</html>
