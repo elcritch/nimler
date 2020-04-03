@@ -250,18 +250,6 @@
       
       
 
-
-  <li class="md-nav__item">
-    <a href="../advanced_use/" title="Advanced example" class="md-nav__link">
-      Advanced example
-    </a>
-  </li>
-
-    
-      
-      
-      
-
   
 
 
@@ -361,6 +349,18 @@
   
 </nav>
     
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../advanced_use/" title="Advanced example" class="md-nav__link">
+      Advanced example
+    </a>
   </li>
 
     
@@ -491,12 +491,13 @@
                 
                 
                 <h1 id="encoding-and-decoding-erlang-terms">Encoding and decoding Erlang terms</h1>
-<p>nimler exposes a set of convenience functions for encoding and decoding Erlang terms. Erlang terms are represented in nimler with the opaque type <code>ErlNifTerm</code>.</p>
+<p>nimler exposes a set of functions for encoding and decoding Erlang terms. Erlang terms are represented in nimler with the opaque type <code>ErlNifTerm</code>.</p>
 <h2 id="available-types-for-codec-functions">Available types for codec functions</h2>
 <table>
 <thead>
 <tr>
-<th>Erlang/Elixir</th>
+<th>Erlang</th>
+<th>Elixir</th>
 <th>nim</th>
 <th>Encode</th>
 <th>Decode</th>
@@ -505,23 +506,48 @@
 <tbody>
 <tr>
 <td>Integer</td>
+<td>Integer</td>
 <td>int, int32, int64, uint, uint32, uint64</td>
 <td>✓</td>
 <td>✓</td>
 </tr>
 <tr>
 <td>Float</td>
-<td>float</td>
+<td>Float</td>
+<td>float, float32, float64</td>
 <td>✓</td>
 <td>✓</td>
 </tr>
 <tr>
 <td>Atom</td>
-<td>type ErlAtom = object<br>&nbsp;val: string</td>
+<td>Atom</td>
+<td>ErlAtom</td>
 <td>✓</td>
 <td>✓</td>
 </tr>
 <tr>
+<td>String</td>
+<td>Charlist</td>
+<td>ErlCharlist</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Binary</td>
+<td>String</td>
+<td>string</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Binary</td>
+<td>Binary</td>
+<td>ErlBinary</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>List</td>
 <td>List</td>
 <td>seq</td>
 <td>✓</td>
@@ -529,19 +555,15 @@
 </tr>
 <tr>
 <td>Tuple</td>
+<td>Tuple</td>
 <td>tuple</td>
 <td>✓</td>
 <td>✓</td>
 </tr>
 <tr>
 <td>Map</td>
-<td>table</td>
-<td>✓</td>
-<td>✓</td>
-</tr>
-<tr>
-<td>Charlist</td>
-<td>string</td>
+<td>Map</td>
+<td>Table</td>
 <td>✓</td>
 <td>✓</td>
 </tr>
@@ -588,7 +610,7 @@
 <ul>
 <li><code>AtomOk</code>: <code>ErlAtom(val: "ok")</code></li>
 <li><code>AtomErr</code>: <code>ErlAtom(val: "error")</code></li>
-<li><code>Atomtrue</code>: <code>ErlAtom(val: "true")</code></li>
+<li><code>AtomTrue</code>: <code>ErlAtom(val: "true")</code></li>
 <li><code>AtomFalse</code>: <code>ErlAtom(val: "false")</code></li>
 </ul>
 </div>
@@ -678,7 +700,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../advanced_use/" title="Advanced example" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../getting_started/" title="Getting started" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -687,19 +709,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Advanced example
+                Getting started
               </span>
             </div>
           </a>
         
         
-          <a href="../timeslice/" title="Cooperating with Erlang scheduler" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../advanced_use/" title="Advanced example" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Cooperating with Erlang scheduler
+                Advanced example
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

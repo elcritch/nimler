@@ -250,6 +250,18 @@
       
       
 
+
+  <li class="md-nav__item">
+    <a href="../codec/" title="Encoding and decoding Erlang terms" class="md-nav__link">
+      Encoding and decoding Erlang terms
+    </a>
+  </li>
+
+    
+      
+      
+      
+
   
 
 
@@ -264,18 +276,6 @@
       Advanced example
     </a>
     
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="../codec/" title="Encoding and decoding Erlang terms" class="md-nav__link">
-      Encoding and decoding Erlang terms
-    </a>
   </li>
 
     
@@ -394,14 +394,15 @@
 
   <span class="k">return</span> <span class="n">ok</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
 
-<span class="n">export_nifs</span><span class="p">(</span><span class="s">&quot;Elixir.PIController&quot;</span><span class="p">,</span> <span class="n">NifOptions</span><span class="p">(</span>
+<span class="k">const</span> <span class="n">exports</span> <span class="o">=</span> <span class="n">NifOptions</span><span class="p">(</span>
   <span class="n">funcs</span><span class="p">:</span> <span class="o">@[</span>
-    <span class="p">(</span><span class="s">&quot;create_resource&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">create_resource</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&quot;update_resource&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">update_resource</span><span class="p">)</span>
+    <span class="n">create_resource</span><span class="p">.</span><span class="n">toNif</span><span class="p">(</span><span class="s">&quot;create_resource&quot;</span><span class="p">,</span> <span class="n">arity</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+    <span class="n">update_resource</span><span class="p">.</span><span class="n">toNif</span><span class="p">(</span><span class="s">&quot;update_resource&quot;</span><span class="p">,</span> <span class="n">arity</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
   <span class="o">]</span><span class="p">,</span>
   <span class="n">load</span><span class="p">:</span> <span class="n">on_load</span><span class="p">,</span>
   <span class="n">unload</span><span class="p">:</span> <span class="n">on_unload</span>
-<span class="p">))</span>
+<span class="p">)</span>
+<span class="n">export_nifs</span><span class="p">(</span><span class="n">exports</span><span class="p">)</span>
 </code></pre></div></div>
 <input name="__tabs_1" type="radio" id="__tab_1_1" />
 <label for="__tab_1_1">pi_controller.nim</label>
@@ -494,7 +495,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../getting_started/" title="Getting started" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../codec/" title="Encoding and decoding Erlang terms" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -503,19 +504,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Getting started
+                Encoding and decoding Erlang terms
               </span>
             </div>
           </a>
         
         
-          <a href="../codec/" title="Encoding and decoding Erlang terms" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../timeslice/" title="Cooperating with Erlang scheduler" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Encoding and decoding Erlang terms
+                Cooperating with Erlang scheduler
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

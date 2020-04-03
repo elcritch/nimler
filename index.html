@@ -236,45 +236,9 @@
       
     
     
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Introduction
-      </label>
-    
     <a href="." title="Introduction" class="md-nav__link md-nav__link--active">
       Introduction
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
-    Installation
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
     
   </li>
 
@@ -297,8 +261,8 @@
 
 
   <li class="md-nav__item">
-    <a href="advanced_use/" title="Advanced example" class="md-nav__link">
-      Advanced example
+    <a href="codec/" title="Encoding and decoding Erlang terms" class="md-nav__link">
+      Encoding and decoding Erlang terms
     </a>
   </li>
 
@@ -309,8 +273,8 @@
 
 
   <li class="md-nav__item">
-    <a href="codec/" title="Encoding and decoding Erlang terms" class="md-nav__link">
-      Encoding and decoding Erlang terms
+    <a href="advanced_use/" title="Advanced example" class="md-nav__link">
+      Advanced example
     </a>
   </li>
 
@@ -356,29 +320,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
-    Installation
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -393,57 +334,15 @@
                 
                 
                 <h1 id="nimler">nimler</h1>
-<p>Nimler is a library for authoring Erlang and Elixir NIFs in the <a href="https://nim-lang.org/">nim</a> programming language.</p>
-<p>It has mostly complete bindings for <a href="http://erlang.org/doc/man/erl_nif.html">Erlang NIF API</a>, and various codec functions to make writing NIFs easier.</p>
+<p>Nimler is a library for authoring Erlang and Elixir NIFs in the nim programming language.</p>
+<p>It has mostly complete <a href="https://wltsmrz.github.io/nimler/bindings/"><ins>bindings</ins></a> for Erlang <a href="http://erlang.org/doc/man/erl_nif.html"><ins>NIF API</ins></a>, and functions for <a href="https://wltsmrz.github.io/nimler/codec/"><ins>encoding and decoding<ins></a> Erlang terms.</p>
 <div class="admonition question">
 <p class="admonition-title">Why write an Elixir NIF in nim?</p>
 <ul>
-<li>tuneable garbage collection. It can be disabled entirely. It also has <a href="https://forum.nim-lang.org/t/5734">automatic reference counting</a></li>
 <li>compiles to C, and has simple <a href="https://nim-lang.org/docs/manual.html#foreign-function-interface">FFI</a></li>
+<li>tuneable garbage collection, and <a href="https://forum.nim-lang.org/t/5734">automatic reference counting</a></li>
 <li>minimal, python-inspired aesthetic</li>
 </ul>
-</div>
-<h2 id="installation">Installation</h2>
-<div class="codehilite"><pre><span></span><code>$ nimble install nimler
-</code></pre></div>
-
-<h2 id="usage">Usage</h2>
-<div class="superfences-tabs">
-<input name="__tabs_1" type="radio" id="__tab_1_0" checked="checked" />
-<label for="__tab_1_0">nif.nim</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="n">nimler</span>
-
-<span class="k">proc </span><span class="nf">add_numbers</span><span class="p">(</span><span class="n">env</span><span class="p">:</span> <span class="k">ptr</span> <span class="n">ErlNifEnv</span><span class="p">,</span> <span class="n">argc</span><span class="p">:</span> <span class="n">cint</span><span class="p">,</span> <span class="n">argv</span><span class="p">:</span> <span class="n">ErlNifArgs</span><span class="p">):</span> <span class="n">ErlNifTerm</span> <span class="o">=</span>
-  <span class="k">let</span> <span class="n">a1</span> <span class="o">=</span> <span class="n">argv</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="kt">int32</span><span class="p">).</span><span class="n">get</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-  <span class="k">let</span> <span class="n">a2</span> <span class="o">=</span> <span class="n">argv</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="kt">int32</span><span class="p">).</span><span class="n">get</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-  <span class="k">let</span> <span class="n">r</span> <span class="o">=</span> <span class="n">a1</span> <span class="o">+</span> <span class="n">a2</span>
-  <span class="k">return</span> <span class="n">r</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
-
-<span class="n">export_nifs</span><span class="p">(</span><span class="s">&quot;Elixir.NumberAdder&quot;</span><span class="p">,</span> <span class="o">@[</span>
-  <span class="p">(</span><span class="s">&quot;add_numbers&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">add_numbers</span><span class="p">)</span>
-<span class="o">]</span><span class="p">)</span>
-</code></pre></div></div>
-<input name="__tabs_1" type="radio" id="__tab_1_1" />
-<label for="__tab_1_1">NumberAdder.exs</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="kd">defmodule</span> <span class="nc">NumberAdder</span> <span class="k">do</span>
-  <span class="na">@on_load</span> <span class="ss">:load_nif</span>
-
-  <span class="kd">def</span> <span class="n">add_numbers</span><span class="p">(</span><span class="n">_a</span><span class="p">,</span> <span class="n">_b</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="k">raise</span> <span class="s2">&quot;not implemented&quot;</span>
-
-  <span class="kd">def</span> <span class="n">load_nif</span><span class="p">,</span> <span class="k">do</span>
-    <span class="ss">:erlang</span><span class="o">.</span><span class="n">load_nif</span><span class="p">(</span><span class="n">to_charlist</span><span class="p">(</span><span class="nc">Path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nc">Path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__ENV__</span><span class="o">.</span><span class="n">file</span><span class="p">),</span> <span class="s2">&quot;nif&quot;</span><span class="p">)),</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="nc">IO</span><span class="o">.</span><span class="n">inspect</span><span class="p">(</span><span class="n">add_numbers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</code></pre></div></div>
-<input name="__tabs_1" type="radio" id="__tab_1_2" />
-<label for="__tab_1_2">run.sh</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="c1"># compile shared library</span>
-nim c --app:lib --noMain --gc:arc -o:nif.so ./nif.nim
-
-<span class="c1"># run elixir wrapper module</span>
-elixir ./NumberAdder.exs
-</code></pre></div></div>
 </div>
                 
                   

@@ -252,8 +252,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../advanced_use/" title="Advanced example" class="md-nav__link">
-      Advanced example
+    <a href="../codec/" title="Encoding and decoding Erlang terms" class="md-nav__link">
+      Encoding and decoding Erlang terms
     </a>
   </li>
 
@@ -264,8 +264,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../codec/" title="Encoding and decoding Erlang terms" class="md-nav__link">
-      Encoding and decoding Erlang terms
+    <a href="../advanced_use/" title="Advanced example" class="md-nav__link">
+      Advanced example
     </a>
   </li>
 
@@ -303,8 +303,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#explicitly-identifying-nifs-as-dirty" class="md-nav__link">
-    Explicitly identifying NIFs as dirty
+  <a href="#identifying-nifs-as-dirty" class="md-nav__link">
+    Identifying NIFs as dirty
   </a>
   
 </li>
@@ -360,8 +360,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#explicitly-identifying-nifs-as-dirty" class="md-nav__link">
-    Explicitly identifying NIFs as dirty
+  <a href="#identifying-nifs-as-dirty" class="md-nav__link">
+    Identifying NIFs as dirty
   </a>
   
 </li>
@@ -393,9 +393,9 @@
                 
                 
                 <h1 id="cooperating-with-erlang-scheduler">Cooperating with Erlang scheduler</h1>
-<p>NIFs should perform some unit of work quickly and return as soon as possible. The threshold for not-quick is around 1ms--although in reality this figure is dynamic. Erlang supports NIFs that take longer to execute--"dirty" NIFs--in multiple ways.</p>
-<h2 id="explicitly-identifying-nifs-as-dirty">Explicitly identifying NIFs as dirty</h2>
-<p>If a NIF identifies as dirty, Erlang will schedule it separately from normal NIFs. This is somewhat consequential, so <a href="http://erlang.org/doc/man/erl_nif.html">the documentation</a> should be consulted. In nimler, dirty functions are passed as in the following example.</p>
+<p>NIFs should return as soon as possible. The threshold for not-quick is around 1ms--although in reality this figure is dynamic. Erlang supports NIFs that take longer to execute--"dirty" NIFs--in multiple ways.</p>
+<h2 id="identifying-nifs-as-dirty">Identifying NIFs as dirty</h2>
+<p>If a NIF identifies as dirty, Erlang will schedule it separately from normal NIFs. In nimler, dirty functions are specified as in the following example:</p>
 <div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="n">nimler</span>
 <span class="kn">import</span> <span class="n">os</span>
 
@@ -410,10 +410,9 @@
 
   <span class="k">return</span> <span class="n">AtomOk</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
 
-<span class="n">export_nifs</span><span class="p">(</span><span class="s">&quot;Elixir.NimlerWrapper&quot;</span><span class="p">,</span> <span class="n">NifOptions</span><span class="p">(</span>
-  <span class="n">dirty_funcs</span><span class="p">:</span> <span class="o">@[</span>
-    <span class="p">(</span><span class="s">&quot;dirty_cpu&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dirty_cpu</span><span class="p">,</span> <span class="n">ERL_NIF_DIRTY_CPU</span><span class="p">),</span>
-    <span class="p">(</span><span class="s">&quot;dirty_io&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dirty_io</span><span class="p">,</span> <span class="n">ERL_NIF_DIRTY_IO</span><span class="p">)</span>
+<span class="n">export_nifs</span><span class="p">(</span><span class="s">&quot;Elixir.NimlerWrapper&quot;</span><span class="p">,</span> <span class="o">@[</span>
+    <span class="p">(</span><span class="s">&quot;dirty_cpu&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dirty_cpu</span><span class="p">,</span> <span class="n">ERL_NIF_DIRTY_CPU</span><span class="p">),</span> <span class="c"># dirty CPU flag</span>
+    <span class="p">(</span><span class="s">&quot;dirty_io&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dirty_io</span><span class="p">,</span> <span class="n">ERL_NIF_DIRTY_IO</span><span class="p">)</span> <span class="c"># dirty IO flag</span>
   <span class="o">]</span>
 <span class="p">))</span>
 </code></pre></div>
@@ -421,12 +420,11 @@
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul>
-<li><code>dirty_funcs</code> rather than <code>funcs</code> allow to specify NIF flags</li>
 <li><code>ERL_NIF_DIRTY_CPU</code> and <code>ERL_NIF_DIRTY_IO</code> flags specify whether the function is CPU or IO bound. It's important to classify these right. Per documentation: If you should classify CPU bound jobs as I/O bound jobs, dirty I/O schedulers might starve ordinary schedulers</li>
 </ul>
 </div>
 <h2 id="separating-work-into-multiple-nif-calls">Separating work into multiple NIF calls</h2>
-<p>If work can be reasonably iterated, NIFs can reschedule subsequent invocations if they consume too much time. The following function counts to 1000 in 1ms increments. It reschedules itself after it has consumed approximately 10% of a timeslice. In reality this NIF will invoke itself hundreds of times without the calling module's knowledge. This is the preferred way to handle potentially long-running NIF.</p>
+<p>NIFs can schedule subsequent invocations on the basis of consumed-time. The following function counts to 1000 in 1ms increments. It reschedules itself after it has consumed approximately 10% of a timeslice. </p>
 <div class="codehilite"><pre><span></span><code><span class="k">proc </span><span class="nf">test_consume_timeslice</span><span class="p">(</span><span class="n">env</span><span class="p">:</span> <span class="k">ptr</span> <span class="n">ErlNifEnv</span><span class="p">,</span> <span class="n">argc</span><span class="p">:</span> <span class="n">cint</span><span class="p">,</span> <span class="n">argv</span><span class="p">:</span> <span class="n">ErlNifArgs</span><span class="p">):</span> <span class="n">ErlNifTerm</span> <span class="o">=</span>
   <span class="kd">var</span> <span class="n">i</span> <span class="o">=</span> <span class="n">argv</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="kt">int32</span><span class="p">).</span><span class="n">get</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
   <span class="kd">var</span> <span class="n">schedule_count</span> <span class="o">=</span> <span class="n">argv</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="kt">int32</span><span class="p">).</span><span class="n">get</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -435,19 +433,15 @@
 
   <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">enif_consume_timeslice</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">cint</span><span class="p">(</span><span class="mi">10</span><span class="p">)):</span>
-      <span class="k">let</span> <span class="n">next_args</span> <span class="o">=</span> <span class="o">[</span>
+      <span class="k">return</span> <span class="n">enif_schedule_nif</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">test_consume_timeslice</span><span class="p">,</span> <span class="o">[</span>
         <span class="n">i</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="n">env</span><span class="p">),</span>
         <span class="n">schedule_count</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
-      <span class="o">]</span>
-
-      <span class="k">return</span> <span class="n">enif_schedule_nif</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">test_consume_timeslice</span><span class="p">,</span> <span class="n">next_args</span><span class="p">)</span>
+      <span class="o">]</span><span class="p">)</span>
 
     <span class="n">os</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">inc</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 
-  <span class="k">let</span> <span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">schedule_count</span><span class="p">)</span>
-
-  <span class="k">return</span> <span class="n">result</span><span class="p">.</span><span class="n">ok</span><span class="p">(</span><span class="n">env</span><span class="p">)</span> <span class="c"># {:ok, {1000, 932}}</span>
+  <span class="k">return</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">schedule_count</span><span class="p">).</span><span class="n">ok</span><span class="p">(</span><span class="n">env</span><span class="p">)</span> <span class="c"># {:ok, {1000, 932}}</span>
 </code></pre></div>
 
 <div class="admonition note">
@@ -478,7 +472,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../codec/" title="Encoding and decoding Erlang terms" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../advanced_use/" title="Advanced example" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -487,7 +481,7 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Encoding and decoding Erlang terms
+                Advanced example
               </span>
             </div>
           </a>

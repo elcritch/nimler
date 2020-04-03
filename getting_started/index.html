@@ -267,6 +267,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    Setup
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#write-nif-in-nim" class="md-nav__link">
     Write NIF in nim
   </a>
@@ -283,6 +290,13 @@
         <li class="md-nav__item">
   <a href="#load-nif-from-elixir" class="md-nav__link">
     Load NIF from Elixir
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#more-examples" class="md-nav__link">
+    More examples
   </a>
   
 </li>
@@ -304,8 +318,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../advanced_use/" title="Advanced example" class="md-nav__link">
-      Advanced example
+    <a href="../codec/" title="Encoding and decoding Erlang terms" class="md-nav__link">
+      Encoding and decoding Erlang terms
     </a>
   </li>
 
@@ -316,8 +330,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../codec/" title="Encoding and decoding Erlang terms" class="md-nav__link">
-      Encoding and decoding Erlang terms
+    <a href="../advanced_use/" title="Advanced example" class="md-nav__link">
+      Advanced example
     </a>
   </li>
 
@@ -367,6 +381,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    Setup
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#write-nif-in-nim" class="md-nav__link">
     Write NIF in nim
   </a>
@@ -383,6 +404,13 @@
         <li class="md-nav__item">
   <a href="#load-nif-from-elixir" class="md-nav__link">
     Load NIF from Elixir
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#more-examples" class="md-nav__link">
+    More examples
   </a>
   
 </li>
@@ -408,6 +436,19 @@
                 
                 <h1 id="getting-started">Getting started</h1>
 <p>This example will create a NIF for Elixir to add two signed 32-bit ints.</p>
+<h2 id="setup">Setup</h2>
+<p>Install <a href="https://nim-lang.org/install.html"><ins>nim</ins></a> and <a href="https://elixir-lang.org/install.html]"><ins>elixir</ins></a></p>
+<div class="codehilite"><pre><span></span><code>$ nim --version
+<span class="c1"># Nim Compiler Version 1.0.6 [Linux: amd64]</span>
+
+$ elixir --version
+<span class="c1"># Elixir 1.10.2 (compiled with Erlang/OTP 22)</span>
+</code></pre></div>
+
+<p>Install nimler</p>
+<div class="codehilite"><pre><span></span><code>$ nimble install nimler
+</code></pre></div>
+
 <h2 id="write-nif-in-nim">Write NIF in nim</h2>
 <div class="superfences-tabs">
 <input name="__tabs_1" type="radio" id="__tab_1_0" checked="checked" />
@@ -435,7 +476,7 @@
 </ul>
 </div>
 <h2 id="compile-nif-to-shared-library">Compile NIF to shared library</h2>
-<div class="codehilite"><pre><span></span><code>nim c --app:lib --noMain --gc:arc -o:nif.so ./nif.nim
+<div class="codehilite"><pre><span></span><code>nim c --app:lib --noMain -o:nif.so ./nif.nim
 </code></pre></div>
 
 <h2 id="load-nif-from-elixir">Load NIF from Elixir</h2>
@@ -454,10 +495,19 @@
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul>
-<li>Placeholder functions (in this case <code>add_numbers(_a, _b)</code> must exist when NIF is loaded</li>
-<li>Placeholder arguments (<code>_a, _b</code>) must also exist, and must match the arity of the exported NIF</li>
+<li><code>add_numbers(_a, _b)</code> Placeholder functions must exist when NIF is loaded. The arity of placeholder functions must also match the arity of functions exported from NIF</li>
+<li><code>'./nif'</code> path to shared library; in this case <code>nif.so</code></li>
 </ul>
 </div>
+<h2 id="more-examples">More examples</h2>
+<p>nimler tests are also nifs. For more examples, see:</p>
+<ul>
+<li><a href="https://github.com/wltsmrz/nimler/blob/develop/tests/init_api/nif.nim">init API</a></li>
+<li><a href="https://github.com/wltsmrz/nimler/blob/develop/tests/codec/nif.nim">codec</a></li>
+<li><a href="https://github.com/wltsmrz/nimler/blob/develop/tests/integration/nif.nim">erl_nif API coverage</a></li>
+<li><a href="https://github.com/wltsmrz/nimler/blob/develop/tests/dirty_nif/nif.nim">dirty NIFs</a></li>
+<li><a href="https://github.com/wltsmrz/nimler/blob/develop/tests/timeslice/nif.nim">consume_timeslice() test</a></li>
+</ul>
                 
                   
                 
@@ -494,13 +544,13 @@
           </a>
         
         
-          <a href="../advanced_use/" title="Advanced example" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../codec/" title="Encoding and decoding Erlang terms" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Advanced example
+                Encoding and decoding Erlang terms
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
