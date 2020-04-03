@@ -571,10 +571,8 @@
 </table>
 <h2 id="encoding">Encoding</h2>
 <p>Encode nim type to <code>ErlNifTerm</code></p>
-<div class="codehilite"><pre><span></span><code><span class="k">let</span> <span class="n">val</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="kd">var</span> <span class="n">encoded</span> <span class="o">=</span> <span class="n">encode</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
-
-<span class="n">encoded</span> <span class="o">=</span> <span class="n">val</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="k">let</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="kd">var</span> <span class="n">encoded</span> <span class="o">=</span> <span class="n">val</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
 
 <span class="n">encoded</span> <span class="o">=</span> <span class="mi">10</span><span class="il">&#39;i32</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
 <span class="c"># ErlNifTerm(10)</span>
@@ -582,14 +580,12 @@
 
 <h2 id="decoding">Decoding</h2>
 <p>Decode <code>ErlNifTerm</code> to nim type.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">let</span> <span class="n">my_val</span> <span class="o">=</span> <span class="n">term</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="kt">int32</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="k">let</span> <span class="n">i_option</span> <span class="o">=</span> <span class="n">encoded</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="kt">int32</span><span class="p">)</span>
 
-<span class="k">if</span> <span class="n">isNone</span><span class="p">(</span><span class="n">my_val</span><span class="p">):</span>
+<span class="k">if</span> <span class="n">i_option</span><span class="p">.</span><span class="n">isNone</span><span class="p">():</span>
   <span class="c"># The term was not successfully decoded into an int32</span>
-  <span class="k">return</span> <span class="n">do_something</span><span class="p">()</span>
-
-<span class="k">let</span> <span class="n">v</span> <span class="o">=</span> <span class="n">my_val</span><span class="p">.</span><span class="n">get</span><span class="p">()</span>
-<span class="c"># v == 10</span>
+<span class="k">else</span><span class="p">:</span>
+  <span class="k">let</span> <span class="n">i</span> <span class="o">=</span> <span class="n">i_option</span><span class="p">.</span><span class="n">get</span><span class="p">()</span> <span class="c"># i == 10</span>
 </code></pre></div>
 
 <div class="admonition note">
