@@ -663,12 +663,12 @@
 
 <h2 id="results">Results</h2>
 <p>The <code>ErlResult</code> codec type represents a tuple of arity=2 whose first element is either an atom <code>:ok</code> or <code>:error</code>. nimler also exposes <code>ok()</code> and <code>error()</code> functions for creating terms from either.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">let</span> <span class="n">ok_term</span> <span class="o">=</span> <span class="n">ok</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
-<span class="c"># equivalent: let ok_term = 1.ok(env) </span>
+<div class="codehilite"><pre><span></span><code><span class="k">let</span> <span class="n">term</span> <span class="o">=</span> <span class="mf">1.</span><span class="n">encode</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+<span class="k">let</span> <span class="n">ok_term</span> <span class="o">=</span> <span class="n">term</span><span class="p">.</span><span class="n">ok</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
 <span class="c"># {:ok, 1}</span>
 
-<span class="k">let</span> <span class="n">err_term</span> <span class="o">=</span> <span class="n">error</span><span class="p">(</span><span class="s">&quot;bad_thing&quot;</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
-<span class="c"># {:error, &#39;bad_thing&#39;}</span>
+<span class="k">let</span> <span class="n">err_term</span> <span class="o">=</span> <span class="n">term</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+<span class="c"># {:error, 2}</span>
 </code></pre></div>
 
 <p>Example proxying first argument within a result tuple</p>
