@@ -91,10 +91,6 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#getting-started" tabindex="0" class="md-skip">
-        Skip to content
-      </a>
-    
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid">
@@ -238,84 +234,6 @@
       
       
 
-  
-
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Getting started
-      </label>
-    
-    <a href="./" title="Getting started" class="md-nav__link md-nav__link--active">
-      Getting started
-    </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#setup" class="md-nav__link">
-    Setup
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#write-nif-in-nim" class="md-nav__link">
-    Write NIF in nim
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#compile-nif-to-shared-library" class="md-nav__link">
-    Compile NIF to shared library
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#load-nif-from-elixir" class="md-nav__link">
-    Load NIF from Elixir
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#more-examples" class="md-nav__link">
-    More examples
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
-  </li>
-
-    
-      
-      
-      
-
 
   <li class="md-nav__item">
     <a href="../codec/" title="Encoding and decoding Erlang terms" class="md-nav__link">
@@ -367,65 +285,6 @@
               </div>
             
             
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#setup" class="md-nav__link">
-    Setup
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#write-nif-in-nim" class="md-nav__link">
-    Write NIF in nim
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#compile-nif-to-shared-library" class="md-nav__link">
-    Compile NIF to shared library
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#load-nif-from-elixir" class="md-nav__link">
-    Load NIF from Elixir
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#more-examples" class="md-nav__link">
-    More examples
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-                  </div>
-                </div>
-              </div>
-            
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
@@ -434,80 +293,9 @@
                   <a href="https://github.com/wltsmrz/nimler/edit/master/docs/getting_started.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="getting-started">Getting started</h1>
-<p>This example will create a NIF for Elixir to add two signed 32-bit ints.</p>
-<h2 id="setup">Setup</h2>
-<p>Install <a href="https://nim-lang.org/install.html"><ins>nim</ins></a> and <a href="https://elixir-lang.org/install.html]"><ins>elixir</ins></a></p>
-<div class="codehilite"><pre><span></span><code>$ nim --version
-<span class="c1"># Nim Compiler Version 1.0.6 [Linux: amd64]</span>
-
-$ elixir --version
-<span class="c1"># Elixir 1.10.2 (compiled with Erlang/OTP 22)</span>
-</code></pre></div>
-
-<p>Install nimler</p>
-<div class="codehilite"><pre><span></span><code>$ nimble install nimler
-</code></pre></div>
-
-<h2 id="write-nif-in-nim">Write NIF in nim</h2>
-<div class="superfences-tabs">
-<input name="__tabs_1" type="radio" id="__tab_1_0" checked="checked" />
-<label for="__tab_1_0">nif.nim</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="n">nimler</span>
-
-<span class="k">proc </span><span class="nf">add_numbers</span><span class="p">(</span><span class="n">env</span><span class="p">:</span> <span class="k">ptr</span> <span class="n">ErlNifEnv</span><span class="p">,</span> <span class="n">argc</span><span class="p">:</span> <span class="n">cint</span><span class="p">,</span> <span class="n">argv</span><span class="p">:</span> <span class="n">ErlNifArgs</span><span class="p">):</span> <span class="n">ErlNifTerm</span> <span class="o">=</span>
-  <span class="k">let</span> <span class="n">a1</span> <span class="o">=</span> <span class="n">argv</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="kt">int32</span><span class="p">).</span><span class="n">get</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-  <span class="k">let</span> <span class="n">a2</span> <span class="o">=</span> <span class="n">argv</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="kt">int32</span><span class="p">).</span><span class="n">get</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-  <span class="k">let</span> <span class="n">r</span> <span class="o">=</span> <span class="n">a1</span> <span class="o">+</span> <span class="n">a2</span>
-  <span class="k">return</span> <span class="n">r</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
-
-<span class="n">export_nifs</span><span class="p">(</span><span class="s">&quot;Elixir.NumberAdder&quot;</span><span class="p">,</span> <span class="o">@[</span>
-  <span class="p">(</span><span class="s">&quot;add_numbers&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">add_numbers</span><span class="p">)</span>
-<span class="o">]</span><span class="p">)</span>
-</code></pre></div></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<ul>
-<li><code>env: ptr ErlNifEnv</code> an untraced pointer to <code>ErlNifEnv</code> struct. This is used during most interactions with Erlang NIF API</li>
-<li><code>argc: cint</code> count of arguments</li>
-<li><code>argv: ErlNifArgs</code> array of arguments to the NIF. Each element in ErlNifArgs array is an <code>ErlNifTerm</code></li>
-<li><code>export_nifs()</code> compile-time nim template that exports an <code>ErlNifEntry</code> to be loaded by Elixir</li>
-</ul>
-</div>
-<h2 id="compile-nif-to-shared-library">Compile NIF to shared library</h2>
-<div class="codehilite"><pre><span></span><code>nim c --app:lib --noMain -o:nif.so ./nif.nim
-</code></pre></div>
-
-<h2 id="load-nif-from-elixir">Load NIF from Elixir</h2>
-<div class="superfences-tabs">
-<input name="__tabs_2" type="radio" id="__tab_2_0" checked="checked" />
-<label for="__tab_2_0">NumberAdder.exs</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span><code><span class="kd">defmodule</span> <span class="nc">NumberAdder</span> <span class="k">do</span>
-  <span class="na">@on_load</span> <span class="ss">:load_nif</span>
-
-  <span class="kd">def</span> <span class="n">add_numbers</span><span class="p">(</span><span class="n">_a</span><span class="p">,</span> <span class="n">_b</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="k">raise</span> <span class="s2">&quot;not implemented&quot;</span>
-
-  <span class="kd">def</span> <span class="n">load_nif</span><span class="p">,</span> <span class="ss">do</span><span class="p">:</span> <span class="ss">:erlang</span><span class="o">.</span><span class="n">load_nif</span><span class="p">(</span><span class="s1">&#39;./nif&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="k">end</span>
-</code></pre></div></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<ul>
-<li><code>add_numbers(_a, _b)</code> Placeholder functions must exist when NIF is loaded. The arity of placeholder functions must also match the arity of functions exported from NIF</li>
-<li><code>'./nif'</code> path to shared library; in this case <code>nif.so</code></li>
-</ul>
-</div>
-<h2 id="more-examples">More examples</h2>
-<p>nimler tests are also nifs. For more examples, see:</p>
-<ul>
-<li><a href="https://github.com/wltsmrz/nimler/blob/develop/tests/init_api/nif.nim">init API</a></li>
-<li><a href="https://github.com/wltsmrz/nimler/blob/develop/tests/codec/nif.nim">codec</a></li>
-<li><a href="https://github.com/wltsmrz/nimler/blob/develop/tests/integration/nif.nim">erl_nif API coverage</a></li>
-<li><a href="https://github.com/wltsmrz/nimler/blob/develop/tests/dirty_nif/nif.nim">dirty NIFs</a></li>
-<li><a href="https://github.com/wltsmrz/nimler/blob/develop/tests/timeslice/nif.nim">consume_timeslice() test</a></li>
-</ul>
+                  <h1>Getting started</h1>
+                
+                
                 
                   
                 
@@ -525,41 +313,6 @@ $ elixir --version
       
         
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
-        
-          <a href=".." title="Introduction" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
-            </div>
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Previous
-                </span>
-                Introduction
-              </span>
-            </div>
-          </a>
-        
-        
-          <a href="../codec/" title="Encoding and decoding Erlang terms" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Encoding and decoding Erlang terms
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

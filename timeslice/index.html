@@ -240,18 +240,6 @@
 
 
   <li class="md-nav__item">
-    <a href="../getting_started/" title="Getting started" class="md-nav__link">
-      Getting started
-    </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
     <a href="../codec/" title="Encoding and decoding Erlang terms" class="md-nav__link">
       Encoding and decoding Erlang terms
     </a>
@@ -396,8 +384,9 @@
 <p>NIFs should return as soon as possible. The threshold for not-quick is around 1ms--although in reality this figure is dynamic. Erlang supports NIFs that take longer to execute--"dirty" NIFs--in multiple ways.</p>
 <h2 id="identifying-nifs-as-dirty">Identifying NIFs as dirty</h2>
 <p>If a NIF identifies as dirty, Erlang will schedule it separately from normal NIFs. In nimler, dirty functions are specified as in the following example:</p>
-<div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="n">nimler</span>
-<span class="kn">import</span> <span class="n">os</span>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="n">os</span>
+<span class="kn">import</span> <span class="n">nimler</span>
+<span class="kn">import</span> <span class="n">nimler</span><span class="o">/</span><span class="n">codec</span>
 
 <span class="k">proc </span><span class="nf">dirty_cpu</span><span class="p">(</span><span class="n">env</span><span class="p">:</span> <span class="k">ptr</span> <span class="n">ErlNifEnv</span><span class="p">,</span> <span class="n">argc</span><span class="p">:</span> <span class="n">cint</span><span class="p">,</span> <span class="n">argv</span><span class="p">:</span> <span class="n">ErlNifArgs</span><span class="p">):</span> <span class="n">ErlNifTerm</span> <span class="o">=</span>
   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mi">0</span> <span class="p">..</span><span class="o">&lt;</span> <span class="mi">1000</span><span class="p">:</span>
@@ -410,9 +399,9 @@
 
   <span class="k">return</span> <span class="n">AtomOk</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
 
-<span class="n">export_nifs</span><span class="p">(</span><span class="s">&quot;Elixir.NimlerWrapper&quot;</span><span class="p">,</span> <span class="o">@[</span>
-    <span class="p">(</span><span class="s">&quot;dirty_cpu&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dirty_cpu</span><span class="p">,</span> <span class="n">ERL_NIF_DIRTY_CPU</span><span class="p">),</span> <span class="c"># dirty CPU flag</span>
-    <span class="p">(</span><span class="s">&quot;dirty_io&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dirty_io</span><span class="p">,</span> <span class="n">ERL_NIF_DIRTY_IO</span><span class="p">)</span> <span class="c"># dirty IO flag</span>
+<span class="n">export_nifs</span><span class="p">(</span><span class="s">&quot;Elixir.NimlerWrapper&quot;</span><span class="p">,</span> <span class="o">[</span>
+    <span class="p">(</span><span class="s">&quot;dirty_cpu&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dirty_cpu</span><span class="p">).</span><span class="n">to_nif</span><span class="p">(</span><span class="n">ERL_NIF_DIRTY_CPU</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">&quot;dirty_io&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dirty_io</span><span class="p">).</span><span class="n">to_nif</span><span class="p">(</span><span class="n">ERL_NIF_DIRTY_IO</span><span class="p">)</span>
   <span class="o">]</span>
 <span class="p">))</span>
 </code></pre></div>
